@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<ul id="ul1"></ul>
+<input type="button" value="按钮" id="but">
+	<script>
+		var but = document.getElementById("but");
+		var html = '';
+
+		but.onclick = function(){
+			 ajax();
+
+			setInterval(function(){
+				html = '';
+				 ajax();
+			},2000)
+			/*xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4){
+					if(xhr.status ==200){
+						console.log(xhr.responseText);
+						
+					}else{
+						alert('出错了 Err'+xhr.status);
+					}
+					
+				}
+			};*/
+
+		};
+		function ajax(){
+			var xhr = new XMLHttpRequest();
+			xhr.open('get','getNews.php',true);
+			
+			xhr.onload = function(){
+				if(xhr.status ==200){
+						/*console.log(xhr.responseText);*/
+						var date = JSON.parse(xhr.responseText);
+						var uls = document.getElementById('ul1');
+						for(var i=0;i<date.length;i++){
+							html +='<li>'+date[i].title+'<span>'+date[i].date+'</span></li>';
+						}
+						uls.innerHTML = html;
+
+					}else{
+						alert('出错了 Err'+xhr.status);
+					}
+			};
+			xhr.send();
+		}
+		
+	</script>
+</body>
+</html>
